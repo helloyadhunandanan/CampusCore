@@ -3,172 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus | Campus Resource Management</title>
+    <title>Nexus | Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
     <div class="background-blobs">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
     </div>
 
     <nav class="navbar">
         <div class="logo">NEXUS<span class="dot">.</span></div>
         <ul class="nav-links">
-            <li><a href="#home" class="active">Home</a></li>
-            <li><a href="#resources">Resources</a></li>
-            <li><a href="#dashboard">Dashboard</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#">Resources</a></li>
+            <li><a href="#">Contact</a></li>
         </ul>
-        <button class="btn-login">Student Login</button>
+        <button class="btn-login" id="navLoginBtn">Student Login</button>
+        
     </nav>
 
-    <header id="home" class="hero">
+    <header class="hero">
         <div class="hero-content">
             <h1 class="hero-title">Manage Campus <br> <span class="gradient-text">At Light Speed</span></h1>
             <p class="hero-subtitle">The ultimate platform for reserving labs, borrowing equipment, and tracking campus assets seamlessly.</p>
-            <div class="cta-group">
-                <button class="btn-primary">Book a Resource <i class="fa-solid fa-arrow-right"></i></button>
+            <button class="btn-primary">Book a Resource <i class="fa-solid fa-arrow-right"></i></button>
                 <button class="btn-secondary">View Catalog</button>
-            </div>
-        </div>
-        
-        <div class="hero-visual">
-            <div class="glass-card float-anim">
-                <div class="card-header">
-                    <i class="fa-solid fa-people-roof icon-glow"></i>
-                    <span>Status: Available</span>
-                </div>
-                <h3>Main Seminar Hall</h3>
-                <div class="progress-bar"><div class="fill" style="width: 80%"></div></div>
-                <p>Occupancy: 80%</p>
-            </div>
-            <div class="glass-card float-anim-delayed">
-                <div class="card-header">
-                    <i class="fa-solid fa-laptop-code icon-glow"></i>
-                    <span>Due: Today</span>
-                </div>
-                <h3>Asus Rog</h3>
-                <p>Borrower: Sid</p>
-            </div>
         </div>
     </header>
 
-    <section id="resources" class="features">
-        <h2 class="section-title">Premium Access</h2>
-        <div class="card-grid">
-            <div class="feature-card">
-                <div class="icon-box"><i class="fa-solid fa-flask"></i></div>
-                <h3>Lab Booking</h3>
-                <p>Real-time availability for CS, Mech, and Physics labs with instant approval.</p>
-            </div>
-            <div class="feature-card">
-                <div class="icon-box"><i class="fa-solid fa-video"></i></div>
-                <h3>AV Equipment</h3>
-                <p>Reserve projectors, cameras, and audio gear for your events and projects.</p>
-            </div>
-            <div class="feature-card">
-                <div class="icon-box"><i class="fa-solid fa-calendar-check"></i></div>
-                <h3>Event Halls</h3>
-                <p>Seamless scheduling for auditoriums and seminar halls with conflict detection.</p>
-            </div>
-        </div>
-    </section>
-    <section id="catalog-gallery" class="catalog-hidden">
-       <div class="modal-overlay" id="catalogModal">
-        <div class="modal-glass modal-large">
-            <button class="close-btn" id="closeCatalog">&times;</button>
-            <div class="catalog-header">
-                <h2>Campus Inventory</h2>
-                <div class="filter-tabs">
-                    <span class="active">All</span>
-                    <span>Equipments</span>
-                    <span>info</span>
-                </div>
-            </div>
-
-            <div class="modal-body-scroll">
-                <div class="inventory-grid">
-                    <div class="inventory-card">
-                        <div class="badge available">Available</div>
-                        <div class="card-icon"><i class="fa-solid fa-volume-high"></i></div>
-                        <h4>Speaker Set</h4>
-                        <button class="btn-mini" onclick="switchModal('Speaker Set')">Reserve</button>
-                    </div>
-
-                    <div class="inventory-card">
-                        <div class="badge busy">In Use</div>
-                        <div class="card-icon"><i class="fa-solid fa-camera"></i></div>
-                        <h4>Sony Alpha a7</h4>
-                        <button class="btn-mini disabled">Notify Me</button>
-                    </div>
-
-                    <div class="inventory-card">
-                        <div class="badge available">Available</div>
-                        <div class="card-icon"><i class="fa-solid fa-laptop"></i></div>
-                        <h4>MacBook Pro M2</h4>
-                        <button class="btn-mini" onclick="switchModal('MacBook Pro')">Reserve</button>
-                    </div>
-
-                    <div class="inventory-card">
-                        <div class="badge available">Available</div>
-                        <div class="card-icon"><i class="fa-solid fa-bus-simple"></i></div>
-                        <h4>College Bus</h4>
-                        <button class="btn-mini" onclick="switchModal('College Bus')">Reserve</button>
-                    </div>
-                    
-                    <div class="inventory-card">
-                        <div class="badge available">Available</div>
-                        <div class="card-icon"><i class="fa-solid fa-person-running"></i></div>
-                        <h4>Ground</h4>
-                        <button class="btn-mini" onclick="switchModal('Ground')">Reserve</button>
-                    </div>
-
-                    <div class="inventory-card">
-                        <div class="badge busy">Maintenance</div>
-                        <div class="card-icon"><i class="fa-solid fa-fan"></i></div>
-                        <h4>DJI Drone</h4>
-                        <button class="btn-mini disabled">Unavailable</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-<div class="modal-overlay" id="bookingModal">
+    <div class="modal-overlay" id="authModal">
         <div class="modal-glass">
-            <button class="close-btn" id="closeModal">&times;</button>
-            <h2>Reserve Resource</h2>
-            <form id="bookingForm">
-                <div class="input-group">
-                    <label>Student Name</label>
-                    <input type="text" placeholder="e.g. Sidharth" required>
-                </div>
-                <div class="input-group">
-                    <label>Roll Number</label>
-                    <input type="text" placeholder="CS-2025-001" required>
-                </div>
-                <div class="input-group">
-                    <label>Select Resource</label>
-                    <select id="resourceSelect">
-                        <option value="Arduino Lab">Main Seminar Hall</option>
-                        <option value="MacBook">ASUS ROG</option>
-                        <option value="Seminar Hall">Seminar Hall CS</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label>Date</label>
-                    <input type="date" required>
-                </div>
-                <button type="submit" class="btn-primary full-width">Confirm Booking</button>
-            </form>
+            <button class="close-btn" id="closeAuth">&times;</button>
+            
+            <div id="loginView">
+                <h2>Student Login</h2>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <input type="text" placeholder="student@nexus.edu" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-primary full-width">Sign In</button>
+                    <div class="auth-toggle">
+                        <p>New to Nexus? <span id="toRegister">Create Account</span></p>
+                    </div>
+                </form>
+            </div>
+
+            <div id="registerView" style="display: none;">
+                <h2>Create Account</h2>
+                <form id="registerForm">
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" placeholder="Sidharth" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <input type="email" placeholder="sid@nexus.edu" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-primary full-width">Sign Up</button>
+                    <div class="auth-toggle">
+                        <p>Already have an account? <span id="toLogin">Login here</span></p>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
-    <div id="toast" class="toast">Booking Confirmed! 🚀</div>
-    <script src="script.js"></script>
+    <div id="toast" class="toast">Success! 🚀</div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
