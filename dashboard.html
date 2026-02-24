@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus | Student Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <style>
+        .dashboard-container { display: flex; min-height: 100vh; padding-top: 80px; }
+        .sidebar { 
+            width: 260px; 
+            background: rgba(255,255,255,0.03); 
+            backdrop-filter: blur(15px); 
+            padding: 30px; 
+            border-right: 1px solid var(--glass-border); 
+            position: fixed; 
+            height: 100%; 
+        }
+        .sidebar-link { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            padding: 15px; 
+            color: #aaa; 
+            text-decoration: none; 
+            border-radius: 12px; 
+            margin-bottom: 10px; 
+            transition: 0.3s; 
+        }
+        .sidebar-link.active, .sidebar-link:hover { background: var(--primary); color: white; }
+        .main-content { flex: 1; margin-left: 260px; padding: 40px; }
+        
+        /* Resource Grid Layout */
+        .resource-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 25px; 
+            margin-top: 30px; 
+        }
+        .resource-card { 
+            background: var(--glass-bg); 
+            border: 1px solid var(--glass-border); 
+            border-radius: 20px; 
+            padding: 30px; 
+            transition: 0.3s; 
+            text-align: center; 
+        }
+        .resource-card:hover { transform: translateY(-5px); border-color: var(--secondary); }
+        
+        .icon-circle { 
+            width: 60px; 
+            height: 60px; 
+            background: rgba(0, 212, 255, 0.1); 
+            color: var(--secondary); 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin: 0 auto 15px; 
+            font-size: 1.5rem; 
+        }
+
+        /* Status Badges for Tables */
+        .status-badge { padding: 4px 10px; border-radius: 10px; font-size: 0.75rem; font-weight: bold; }
+        .confirmed { background: rgba(0, 255, 136, 0.1); color: #00ff88; }
+        .pending { background: rgba(255, 166, 0, 0.1); color: #ffa600; }
+        
+        /* ASAP Lab Neon Theme */
+        .asap-highlight {
+            border: 1px solid rgba(0, 212, 255, 0.4) !important;
+            background: rgba(112, 0, 255, 0.08) !important;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+        }
+        .asap-glow {
+            background: rgba(0, 212, 255, 0.2) !important;
+            color: #00d4ff !important;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <nav class="navbar scrolled">
+        <div class="logo">NEXUS<span class="dot">.</span></div>
+        <button class="btn-login" onclick="location.href='/logout'">Logout</button>
+    </nav>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <a href="#" class="sidebar-link active"><i class="fa-solid fa-chart-line"></i> Overview</a>
+            <a href="#" class="sidebar-link"><i class="fa-solid fa-calendar-check"></i> My Bookings</a>
+            <a href="#" class="sidebar-link"><i class="fa-solid fa-circle-exclamation"></i> Report Issue</a>
+            <a href="#" class="sidebar-link"><i class="fa-solid fa-user-gear"></i> Profile Settings</a>
+        </aside>
+
+        <main class="main-content">
+            <h1 style="font-size: 2.5rem; margin-bottom: 10px;">Welcome back, <span class="gradient-text">{{ name }}</span></h1>
+            <p style="color: rgba(255,255,255,0.6);">Current Role: Student | Indian Institution of Technology Madras</p>
+            
+
+            <div class="resource-grid">
+                <div class="resource-card asap-highlight">
+                    <div class="icon-circle asap-glow"><i class="fa-solid fa-microchip"></i></div>
+                    <h3 class="gradient-text">ASAP Lab</h3>
+                    <p style="font-size: 0.85rem; margin: 15px 0; color: #ccc;">Additional Skill Acquisition Programme Kerala<br>Capacity: 100 Seats</p>
+                    <button class="btn-primary" onclick="openBooking('ASAP Lab')">Book Slot</button>
+                </div>
+
+                <div class="resource-card">
+                    <div class="icon-circle"><i class="fa-solid fa-building"></i></div>
+                    <h3>Main Seminar Hall</h3>
+                    <p style="font-size: 0.85rem; margin: 15px 0; color: #ccc;">A Block<br>Capacity: 100 Seats</p>
+                    <button class="btn-primary" onclick="openBooking('Seminar Hall')">Book Now</button>
+                </div>
+
+                <div class="resource-card">
+                    <div class="icon-circle"><i class="fa-solid fa-flask"></i></div>
+                    <h3>Computer Lab</h3>
+                    <p style="font-size: 0.85rem; margin: 15px 0; color: #ccc;">CS Department<br>40 Linux + Windows Systems</p>
+                    <button class="btn-primary" onclick="openBooking('Computer Lab')">Book Now</button>
+                </div>
+
+                <div class="resource-card">
+                    <div class="icon-circle"><i class="fa-solid fa-flask"></i></div>
+                    <h3>Seminar Hall</h3>
+                    <p style="font-size: 0.85rem; margin: 15px 0; color: #ccc;">CS Department<br>75 Seats</p>
+                    <button class="btn-primary" onclick="openBooking('Computer Lab')">Book Now</button>
+                </div>
+            </div>
+
+            <div class="data-card" style="margin-top: 40px; background: var(--glass-bg); border-radius: 20px; padding: 25px;">
+                <h3 style="margin-bottom: 20px;"><i class="fa-solid fa-clock-rotate-left"></i> Recent Booking Status</h3>
+                <table id="bTable" style="width: 100%; text-align: left; border-collapse: collapse;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid var(--glass-border);">
+                            <th style="padding: 15px;">Resource</th>
+                            <th style="padding: 15px;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <div id="toast" class="toast">Action Confirmed!</div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        function openBooking(item) {
+            showToast("Initializing booking for " + item + "...");
+            // Logic to open your booking modal
+        }
+    </script>
+</body>
+</html>
