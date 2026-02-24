@@ -8,7 +8,7 @@ window.addEventListener('scroll', function() {
     }
 });
 
-// --- 2. 3D Tilt Effect for Cards ---
+// --- 2. 3D Tilt Effect for Feature Cards ---
 const cards = document.querySelectorAll('.feature-card');
 cards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
@@ -26,94 +26,158 @@ cards.forEach(card => {
     });
 });
 
-// --- 3. Modal Logic (The New Part) ---
-const modal = document.getElementById('bookingModal');
-const openBtn = document.querySelector('.btn-primary'); // The "Book a Resource" button
-const closeBtn = document.getElementById('closeModal');
-const bookingForm = document.getElementById('bookingForm');
+// --- 3. Modal Universal Controls ---
+const authModal = document.getElementById('authModal');
+const bookingModal = document.getElementById('bookingModal');
+const catalogModal = document.getElementById('catalogModal');
 
-// Open Modal
-openBtn.addEventListener('click', (e) => {
-    e.preventDefault(); // Stop jump to top
-    modal.classList.add('active');
-});
-
-// Close Modal
-closeBtn.addEventListener('click', () => {
-    modal.classList.remove('active');
-});
-
-// Close if clicked outside
-modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-        modal.classList.remove('active');
-    }
-});
-
-// --- 4. Form Submission Simulation ---
-bookingForm.addEventListener('submit', (e) => {
-    e.preventDefault(); // Prevent actual server submit for now
-    
-    // Close modal
-    modal.classList.remove('active');
-    
-    // Show Success Toast
-    showToast("Booking Successful! Reference #8842");
-    
-    // Optional: Reset form
-    bookingForm.reset();
-});
-
-function showToast(message) {
-    const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.classList.add('show');
-    
-    // Hide after 3 seconds
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 3000);
+function toggleModal(id, state) {
+    const element = document.getElementById(id);
+    if (!element) return;
+    if (state === 'open') element.classList.add('active');
+    else element.classList.remove('active');
 }
 
-// --- 5. Catalog Modal Logic ---
-const catalogModal = document.getElementById('catalogModal');
-const viewCatalogBtn = document.querySelector('.btn-secondary');
-const closeCatalogBtn = document.getElementById('closeCatalog');
+// Event Listeners for Opening Modals
+document.getElementById('navLoginBtn')?.addEventListener('click', () => toggleModal('authModal', 'open'));
+document.getElementById('mainBookBtn')?.addEventListener('click', () => toggleModal('bookingModal', 'open'));
+document.getElementById('mainCatalogBtn')?.addEventListener('click', () => toggleModal('catalogModal', 'open'));
 
-// Open Catalog
-viewCatalogBtn.addEventListener('click', () => {
-    catalogModal.classList.add('active');
+// Global Close Listeners for All Modals
+document.querySelectorAll('.close-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.target.closest('.modal-overlay').classList.remove('active');
+    });
 });
 
-// Close Catalog
-closeCatalogBtn.addEventListener('click', () => {
-    catalogModal.classList.remove('active');
-});
-
-// Close Catalog if clicked outside
-catalogModal.addEventListener('click', (e) => {
-    if (e.target === catalogModal) {
-        catalogModal.classList.remove('active');
+// Close when clicking on the blurred background
+window.addEventListener('click', (e) => {
+    if (e.target.classList.contains('modal-overlay')) {
+        e.target.classList.remove('active');
     }
 });
 
-// --- Smart Switch: Close Catalog -> Open Booking ---
-function switchModal(itemName) {
-    // 1. Close the Catalog
-    catalogModal.classList.remove('active');
+// --- 4. Auth View Switching (Login <-> Register) ---
+document.getElementById('toRegister')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('loginView').style.display = 'none';
+    document.getElementById('registerView').style.display = 'block';
+});
+
+document.getElementById('toLogin')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('registerView').style.display = 'none';
+    document.getElementById('loginView').style.display = 'block';
+});
+
+// --- 5. Registration Integration ---
+const registerForm = document.getElementById('registerForm');
+if (registerForm) {
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = {
+            name: e.target.querySelector('input[type="text"]').value,
+            email: e.target.querySelector('input[type="email"]').value,
+            password: e.target.querySelector('input[type="password"]').value
+        };
+
+        try {
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const resData = await response.json();
+
+            if (response.ok) {
+                showToast("Account Created! Sign in now. 🚀");
+                document.getElementById('toLogin').click();
+            } else {
+                showToast("Error: " + resData.message);
+            }
+        } catch (error) {
+            showToast("Connection failed.");
+        }
+    });
+}
+
+// --- 6. Login Integration & Redirect ---
+const loginForm = document.getElementById('loginForm');
+if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = {
+            email: e.target.querySelector('input[type="text"]').value,
+            password: e.target.querySelector('input[type="password"]').value
+        };
+
+        try {
+            const response = await fetch('/login_user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const resData = await response.json();
+
+            if (response.ok) {
+                showToast(`Welcome back, ${resData.user}! Redirecting...`);
+                toggleModal('authModal', 'close');
+                
+                // Redirect to dashboard module after short delay
+                setTimeout(() => {
+                    window.location.href = '/dashboard';
+                }, 1500);
+            } else {
+                showToast(resData.message);
+            }
+        } catch (error) {
+            showToast("Server unreachable.");
+        }
+    });
+}
+
+// --- 7. Dashboard Data Fetching Module ---
+async function loadDashboardData() {
+    const bTable = document.querySelector('#bTable tbody');
+    const iTable = document.querySelector('#iTable tbody');
     
-    // 2. Open the Booking Modal (after small delay for smooth transition)
-    setTimeout(() => {
-        const bookingModal = document.getElementById('bookingModal');
-        bookingModal.classList.add('active');
-        
-        // 3. Auto-fill the item name in the select box (Optional fancy touch)
-        // This is a simple visual hack to show we selected the item
-        const select = document.getElementById('resourceSelect');
-        // Create a temporary option if it doesn't exist
-        let option = new Option(itemName, itemName);
-        select.add(option, undefined);
-        select.value = itemName;
-        
-    }, 300); // 300ms delay matches the CSS transition
+    // Only run if we are actually on the dashboard page
+    if (!bTable || !iTable) return;
+
+    try {
+        const response = await fetch('/get_user_data');
+        const data = await response.json();
+
+        // Populate Bookings Table
+        data.bookings.forEach(b => {
+            const row = `<tr>
+                <td>${b.resource_id}</td>
+                <td><span class="status-badge ${b.status.toLowerCase()}">${b.status}</span></td>
+            </tr>`;
+            bTable.innerHTML += row;
+        });
+
+        // Populate Issues Table
+        data.issues.forEach(i => {
+            const row = `<tr>
+                <td>${i.description}</td>
+                <td><span class="status-badge busy">${i.status}</span></td>
+            </tr>`;
+            iTable.innerHTML += row;
+        });
+    } catch (error) {
+        console.error("Failed to load dashboard data");
+    }
+}
+
+// Initialize dashboard if elements exist
+document.addEventListener('DOMContentLoaded', loadDashboardData);
+
+// --- 8. UI Feedback (Toast Notification) ---
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
 }
