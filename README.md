@@ -1,267 +1,303 @@
-🏛️ NEXUS – Campus Resource Management System (CRMS)
+# 🏛️ NEXUS – Campus Resource Management System (CRMS)
 
-NEXUS is a comprehensive and premium Campus Resource Management System designed to streamline the booking, scheduling, and maintenance of university resources.
+![Python](https://img.shields.io/badge/Python-3-blue)
+![Flask](https://img.shields.io/badge/Framework-Flask-green)
+![Database](https://img.shields.io/badge/Database-MySQL-orange)
+![License](https://img.shields.io/badge/License-MIT-red)
 
-It provides a secure, role-based platform where students, staff, Head of Departments (HODs), and administrators can efficiently manage and reserve labs, venues, equipment, and centralized campus facilities.
+**NEXUS (Campus Resource Management System)** is a smart platform designed to streamline the **booking, scheduling, and maintenance of university resources**.
 
-The system improves resource utilization, transparency, and operational efficiency across the campus.
+It provides a **secure role-based environment** where **students, staff, Head of Departments (HODs), and administrators** can efficiently manage and reserve:
 
-✨ Key Features
-🔐 Advanced Role-Based Access Control (RBAC)
+* 🧪 Labs
+* 🏛️ Venues
+* 🎤 Equipment
+* 🏫 Centralised Campus Facilities
 
-The system ensures secure access using structured role permissions.
+The system improves **resource utilization, transparency, and operational efficiency across campus infrastructure.**
 
-Students / Staff
+---
 
-View campus resource schedules
+# ✨ Key Features
 
-Request bookings for labs, venues, and equipment
+## 🔐 Role-Based Access Control (RBAC)
 
-Cancel their own bookings
+The system provides structured access based on user roles.
 
-Report equipment issues or campus problems
+### 👨‍🎓 Students / Staff
 
-HOD (Head of Department)
+* View resource availability and schedules
+* Request resource bookings
+* Cancel their own bookings
+* Report equipment issues
 
-Receives booking requests related to their department resources
+### 👨‍🏫 HOD (Head of Department)
 
-Can approve or reject booking requests
+* Receive department-specific booking requests
+* Approve or reject resource bookings
+* Manage departmental resources
 
-Manages departmental resource usage efficiently
+### 🛡️ Administrator
 
-Administrator
+* Complete system oversight
+* Manage users and roles
+* Add and update resources
+* Handle issue reports
+* Approve bookings for **Centralised Facilities**
 
-Has complete system oversight
+Examples:
 
-Manages user roles and permissions
+* Auditoriums
+* PA Systems
+* Shared Campus Infrastructure
 
-Adds and manages campus resources
+---
 
-Handles issue resolution
+# 📅 Smart Scheduling & Conflict Detection
 
-Approves bookings for Centralised Facilities such as:
+NEXUS includes a **smart scheduling algorithm** to prevent resource conflicts.
 
-Main Auditoriums
+The system:
 
-PA Systems
+* Parses requested time slots (example: **10:00 – 12:00**)
+* Cross-checks existing bookings
+* Prevents **overlapping reservations**
 
-Shared Campus Infrastructure
+This guarantees **conflict-free resource allocation.**
 
-📅 Smart Scheduling & Conflict Detection
+---
 
-The system uses a smart scheduling algorithm to avoid resource conflicts.
+# 🏢 Intelligent Department Routing
 
-Automatically parses requested time slots (example: 10:00 AM – 12:00 PM)
+When a booking request is created:
 
-Compares the request with existing approved and pending bookings
+1. The system identifies **which department owns the resource**
+2. The request is routed automatically to the **respective HOD**
 
-Prevents overlapping reservations for the same resource on the same date
+### Special Case
 
-This ensures fair and conflict-free scheduling.
+Resources under:
 
-🏢 Intelligent Department Routing
+**Department ID: 99**
+**Department Name: Centralised Facilities**
 
-The booking workflow is automated through department-based routing.
+These booking requests are **directly routed to the Administrator**.
 
-When a booking request is created, the system identifies which department owns the resource.
+---
 
-The request is automatically routed to the respective HOD for approval.
+# ⚡ Live Search & Filtering
 
-Special Case
+The dashboard supports **instant filtering and searching** using **Vanilla JavaScript**.
 
-Resources under Department ID 99 – Centralised Facilities are directly routed to the Administrator for approval.
+Users can quickly search through:
 
-This ensures efficient approval workflows and faster processing.
+* Resource schedules
+* User lists
+* Booking requests
+* Issue reports
 
-⚡ Live Search & Filtering
+All without **reloading the page**, making the system fast and responsive.
 
-The system provides instant search and filtering capabilities.
+---
 
-Implemented using Vanilla JavaScript
+# 🛠️ Issue Tracking & Maintenance
 
-Users can quickly filter:
+NEXUS includes a built-in **issue reporting system**.
 
-Resource schedules
+Users can report:
 
-User lists
-
-Booking requests
-
-Issue reports
-
-All filtering happens without page reloads, ensuring a fast and responsive dashboard experience.
-
-🛠️ Issue Tracking & Maintenance System
-
-NEXUS includes an integrated issue management module.
-
-Users can:
-
-Report broken equipment
-
-Submit campus maintenance requests
+* Broken equipment
+* Lab issues
+* Maintenance problems
 
 Administrators can:
 
-Track reported issues
+* Track issue status
+* Monitor pending repairs
+* Mark issues as **Resolved**
 
-Monitor issue status
+---
 
-Mark issues as Resolved
+# 💻 Technology Stack
 
-This helps maintain campus infrastructure efficiently.
+## Backend
 
-💻 Technology Stack
-Backend
+* Python 3
+* Flask
+* Flask-MySQLdb
+* Werkzeug (Password Security)
 
-Python 3
+## Frontend
 
-Flask
+* HTML5
+* CSS3
+* Vanilla JavaScript
+* FontAwesome Icons
+* Glassmorphism UI Design
 
-Flask-MySQLdb
+## Database
 
-Werkzeug (Secure Password Hashing)
+* MySQL
 
-Frontend
+---
 
-HTML5
+# 🚀 Installation & Setup
 
-CSS3
+## 1️⃣ Prerequisites
 
-Vanilla JavaScript
+Make sure these are installed:
 
-FontAwesome (Icons)
+* Python 3.x
+* MySQL Server
 
-Custom Glassmorphism UI Design
+---
 
-Database
+## 2️⃣ Clone the Repository
 
-MySQL
-
-🚀 Installation & Setup
-1️⃣ Prerequisites
-
-Make sure the following are installed on your system:
-
-Python 3.x
-
-MySQL Server
-
-2️⃣ Clone the Repository
+```bash
 git clone https://github.com/yourusername/nexus-crms.git
 cd nexus-crms
+```
 
-3️⃣ Install Dependencies
+---
 
-It is recommended to use a Python virtual environment.
+## 3️⃣ Install Dependencies
 
+```bash
 pip install Flask Flask-MySQLdb Werkzeug
+```
 
-4️⃣ Database Configuration
+---
 
-Login to MySQL and create a database:
+## 4️⃣ Create Database
 
+Login to MySQL and create the database.
+
+```sql
 CREATE DATABASE crms;
+```
 
+Create required tables:
 
-Create the required tables:
+* users
+* department
+* resources
+* bookings
+* issues
 
-users
-
-department
-
-resources
-
-bookings
-
-issues
-
-⚠️ Important Requirement
+Important requirement:
 
 Create a department with:
 
+```
 department_id = 99
-department_name = "Centralised Facilities"
+department_name = Centralised Facilities
+```
 
+This enables **Admin approval routing**.
 
-This is required for Administrator approval routing.
+---
 
-Configure Database in app.py
+## 5️⃣ Configure Database in `app.py`
 
-Update the MySQL credentials if required:
+Update MySQL credentials if required.
 
+```python
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'your_password_here'
 app.config['MYSQL_DB'] = 'crms'
+```
 
-5️⃣ Run the Application
+---
+
+## 6️⃣ Run the Application
+
+```bash
 python app.py
+```
 
+Open the browser and visit:
 
-Open your browser and visit:
-
+```
 http://127.0.0.1:5000/
+```
 
-📂 Application Structure
-nexus-crms/
+---
+
+# 📂 Project Structure
+
+```
+nexus-crms
 │
 ├── app.py
-│   Core Flask application handling routing,
-│   authentication, and database interactions
+│   Main Flask application
 │
-├── templates/
+├── templates
 │   ├── index.html
-│   │   Login and Registration Portal
-│   │
 │   └── dashboard.html
-│       Role-based dynamic glassmorphism dashboard
 │
-├── static/
+├── static
 │   ├── style.css
 │   └── script.js
-│       UI styling, search filtering, and theme controls
+│
+└── README.md
+```
 
-🔒 Security Features
+---
 
-NEXUS follows secure coding practices:
+# 🔒 Security Features
 
-Passwords are never stored in plain text
+NEXUS follows secure development practices.
 
-Uses Werkzeug password hashing
+* Passwords are **hashed using Werkzeug**
+* Plain-text passwords are **never stored**
+* Session-based authentication
+* Restricted routes for sensitive actions
 
-generate_password_hash
+Protected routes include:
 
-check_password_hash
+* `/approve`
+* `/reject`
+* `/add_resource`
 
-Session-based authentication
+Additional protection:
 
-Route protection for sensitive actions:
+* HODs **cannot approve requests from other departments**
+* Role-based access enforcement
 
-/approve
+---
 
-/reject
+# 📸 Screenshots
 
-/add_resource
+Add screenshots of your system here.
 
-Additional Security:
+Example:
 
-HODs cannot approve requests outside their department
+```
+Login Page
+Dashboard
+Booking Interface
+Admin Panel
+```
 
-Access is restricted based on user roles
+---
 
-🤝 Contributing
+# 🤝 Contributing
 
-Contributions, improvements, and feature requests are welcome.
+Contributions are welcome.
 
 You can:
 
-Open issues
+* Open issues
+* Suggest features
+* Submit pull requests
 
-Submit pull requests
+---
 
-Suggest new features
+# 📝 License
 
-📝 License
+This project is licensed under the **MIT License**.
 
-This project is licensed under the MIT License.
+---
+
